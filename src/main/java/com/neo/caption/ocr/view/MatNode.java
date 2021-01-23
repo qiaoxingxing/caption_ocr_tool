@@ -1,5 +1,6 @@
 package com.neo.caption.ocr.view;
 
+import com.neo.caption.ocr.util.BaseUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,7 +23,8 @@ import static com.neo.caption.ocr.util.BaseUtil.fxmlURL;
 @Setter
 @Slf4j
 public class MatNode extends ToggleButton implements Initializable {
-
+    @FXML
+    public Label startTimeTag;
     @FXML
     public Label delTag;
     @FXML
@@ -76,6 +78,9 @@ public class MatNode extends ToggleButton implements Initializable {
     @FXML
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        String time = BaseUtil.convertTime(this.startTime);
+        time = time.split("\\.")[0];
+        this.startTimeTag.setText(time);
     }
 
     public final void loadImage(Image image, final double width) {

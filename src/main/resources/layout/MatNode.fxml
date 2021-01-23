@@ -14,6 +14,9 @@
             <ImageView fx:id="iv"
                        pickOnBounds="true" preserveRatio="true" smooth="false" cacheHint="SPEED"/>
             <HBox spacing="12.0" AnchorPane.leftAnchor="12.0">
+                <Label fx:id="startTimeTag"
+                       text="00:00:00" visible="true"
+                       style="-fx-text-fill: #ff0000;"/>
                 <!-- delete tag -->
                 <Label fx:id="delTag"
                        text="Del" visible="false"
