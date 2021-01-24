@@ -6,6 +6,7 @@ import com.neo.caption.ocr.constant.LayoutName;
 import com.neo.caption.ocr.pojo.AppHolder;
 import com.neo.caption.ocr.pojo.Build;
 import com.neo.caption.ocr.service.*;
+import com.neo.caption.ocr.service.impl.VideoServiceImpl;
 import com.neo.caption.ocr.stage.StageBroadcast;
 import com.neo.caption.ocr.util.AsyncTask;
 import com.neo.caption.ocr.util.FxUtil;
@@ -687,6 +688,8 @@ public class MainController implements BaseController {
     }
 
     private void onMatNodeClick(MouseEvent mouseEvent, MatNode matNode) {
+        log.info("onMatNodeClick...");
+        onMatNodeDoubleClick(mouseEvent,matNode);
         if (!check_manager.isSelected()) {
             return;
         }
@@ -704,8 +707,29 @@ public class MainController implements BaseController {
                 break;
         }
     }
+    private void onMatNodeDoubleClick(MouseEvent mouseEvent, MatNode matNode) {
+        if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+            if (mouseEvent.getClickCount() == 2) {
+                try {
+                    File videoFile = ((VideoServiceImpl) this.videoService).getVideoFile();
+                    if( videoFile == null){
+                        Toast.makeToast(stage, resourceBundle.getString("snackbar.empty.video"));
+                        return;
+                    }
+                    String file = videoFile.getAbsolutePath();
+                    double startTime = matNode.getStartTime() / 1000 ; //提前一点
+                    String cmd = String.format("runvlc.bat \"%s\" \"%s\" ", file, startTime);
+                    Runtime.getRuntime().exec(cmd);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
-    private void removeBeginTag() {
+    }
+
+
+        private void removeBeginTag() {
         if (!check_manager.isSelected()) {
             return;
         }

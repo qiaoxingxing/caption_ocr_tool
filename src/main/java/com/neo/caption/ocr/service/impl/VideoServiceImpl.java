@@ -38,6 +38,7 @@ public class VideoServiceImpl implements VideoService {
     private final FxUtil fxUtil;
     private final AppHolder appHolder;
     private final VideoCapture videoCapture;
+    private File videoFile;
 
     private int count;
     private boolean finish;
@@ -63,6 +64,7 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public Integer loadVideo(File videoFile) {
+        this.videoFile = videoFile;
         // open() will call release() to close the already opened file.
         videoCapture.open(videoFile.getAbsolutePath());
         videoHolder.setWidth((int) videoCapture.get(CAP_PROP_FRAME_WIDTH))
@@ -221,6 +223,10 @@ public class VideoServiceImpl implements VideoService {
                 archiveMatNodeList.size());
         appHolder.getMatNodeList().add(matNode);
         archiveMatNodeList.clear();
+    }
+
+    public File getVideoFile() {
+        return videoFile;
     }
 
     @Getter
